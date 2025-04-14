@@ -1,4 +1,5 @@
-/* Import Google Font - DM Sans for clean, modern typography */
+/* App.css - Lighter Gradients + Improved Daily Forecast Styling */
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 
 * {
@@ -12,461 +13,392 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: 'DM Sans', sans-serif;
-  background-color: #f5f5f5;
   color: #333;
+  /* Very Subtle Body Background */
+  background-color: #f8faff; /* Slightly blue off-white */
+  overflow: hidden; /* Prevent body scroll on desktop */
 }
 
-/* Main app container with proper vertical centering */
+/* --- Main app container - Wrapper --- */
+.weather-app-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5vh 30px; /* Use viewport height for padding */
+  min-height: 100vh;
+  width: 100%;
+  justify-content: center; /* Center card vertically */
+}
+
 .weather-app {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   width: 100%;
-  padding: 30px;
 }
 
+/* Weather card container */
 .weather-card {
-  background-color: white;
-  border-radius: 36px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff; /* Base white */
+  border-radius: 28px; /* Slightly softer radius */
+  box-shadow: 0 10px 30px rgba(60, 90, 130, 0.08), 0 4px 10px rgba(0, 0, 0, 0.04); /* Softer, bluer shadow */
   display: flex;
+  flex-direction: row;
   width: 100%;
-  max-width: 1500px; /* Increased from 1200px (1.25x) */
+  max-width: 1350px; /* Slightly reduced max-width */
   overflow: hidden;
+  position: relative;
+  /* Height constraints */
+  height: 85vh;
+  max-height: 850px;
+  min-height: 680px;
 }
 
+/* --- Shared Styles for Panel Backgrounds (Lighter Time Gradients) --- */
+.main-content,
+.sidebar {
+  transition: background-image 0.6s ease-in-out;
+  background-size: 100% 100%;
+  position: relative;
+  z-index: 1;
+  overflow-y: auto; /* Allow scrolling within panels */
+}
+
+/* Morning: (Lighter blue) */
+.main-content-morning, .sidebar-morning { background-image: linear-gradient(to bottom right, #e6f7ff 10%, #f5fcff 90%); }
+/* Afternoon: (Lighter warm blue/yellow) */
+.main-content-afternoon, .sidebar-afternoon { background-image: linear-gradient(to bottom right, #e8f4ff 10%, #fffdf8 90%); }
+/* Night: (Lighter cool gray/lavender) */
+.main-content-night, .sidebar-night { background-image: linear-gradient(to bottom right, #eff2f7 10%, #f7f5fa 90%); }
+
+/* --- Main Content (Left Panel) --- */
 .main-content {
   flex: 3;
-  padding: 50px 60px; /* Increased padding */
+  padding: 35px 55px 50px; /* Adjust padding */
+  display: flex;
+  flex-direction: column;
+  color: #2d3748;
+  border-radius: 0;
 }
 
+/* Subtle Background Texture (Underneath Gradient) */
+.main-content::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('/src/assets/multan-bg.jpg'); background-size: cover; background-position: center;
+  opacity: 0.20; z-index: -1; border-radius: 0; filter: grayscale(30%);
+}
+
+/* --- Sidebar (Right Panel) --- */
 .sidebar {
   flex: 2;
-  background-color: #fafafa;
-  padding: 50px 60px; /* Increased padding */
-  border-left: 1px solid #f0f0f0;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 50px; /* Increased margin */
-}
-
-.location {
-  font-size: 28px; /* Increased from 24px */
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
-
-.date {
-  font-size: 24px; /* Increased from 20px */
-  color: #777;
-}
-
-.current-weather {
+  padding: 50px 55px; /* Adjust padding */
+  border-left: none; /* Removed border */
   display: flex;
   flex-direction: column;
-  margin-bottom: 40px; /* Increased margin */
+  color: #2d3748;
+  border-radius: 0;
 }
 
-.temperature-wrapper {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 20px; /* Increased margin */
-}
+/* --- Text & Icon Readability (Clean - No Shadows) --- */
+.location, .temp-value, .temp-degree, .weather-condition, .forecast-heading, .day-temp, .greeting, .sidebar-temp, .hourly-title, .hour-temp { color: #1a202c; text-shadow: none; }
+.date, .detail span, .day-name, .sidebar-feels, .sidebar-condition, .hour-time, .sidebar .time { color: #64748b; text-shadow: none; }
+.detail-icon, .current-weather-icon, .day-condition-icon, .sidebar-condition-icon, .hour-condition-icon { fill: #64748b; filter: none; }
 
-.temperature {
-  display: flex;
-  align-items: flex-start;
-}
+/* --- Internal Navigation Styles (Capsule Buttons) --- */
+.internal-navigation { display: flex; padding: 0 0 10px; margin: 0 0 40px; }
+.nav-button { padding: 8px 24px; border: none; border-radius: 20px; background-color: transparent; font-size: 16px; font-weight: 500; font-family: 'DM Sans', sans-serif; color: #64748b; cursor: pointer; transition: all 0.2s ease; margin-right: 8px; }
+.nav-button:last-child { margin-right: 0; }
+.nav-button:hover:not(.active) { color: #2d3748; background-color: rgba(230, 235, 240, 0.4); }
+.nav-button.active { background-color: #2d3748; color: #ffffff; font-weight: 600; box-shadow: 0 4px 10px rgba(45, 55, 72, 0.2); }
 
-.temp-value {
-  font-size: 220px; /* Increased from 180px */
-  font-weight: 300;
-  line-height: 0.85;
-  color: #333;
-}
+/* --- Shared Element Styles --- */
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; }
+.location { font-size: 24px; font-weight: 600; }
+.date { font-size: 18px; }
+.current-weather { display: flex; flex-direction: column; margin-bottom: 40px; }
+.temperature-wrapper { display: flex; align-items: center; margin-bottom: 5px; width: 100%; }
+.temperature { display: flex; align-items: flex-start; }
+.temp-value { font-size: 170px; font-weight: 400; line-height: 0.85; letter-spacing: -5px; }
+.temp-degree { font-size: 90px; font-weight: 400; margin-top: 10px; margin-left: -10px; }
+.weather-details { display: flex; flex-direction: column; gap: 12px; margin-left: 35px; margin-top: 0; }
+.detail { display: flex; align-items: center; gap: 8px; font-size: 15px; }
+.detail-icon { width: 16px; height: 16px; }
+.current-condition-container { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+.weather-condition { font-size: 32px; font-weight: 500; color: #4a5568; }
+.current-weather-icon { width: 40px; height: 40px; }
+.weather-svg { display: block; }
 
-.temp-degree {
-  font-size: 125px; /* Increased from 100px */
-  font-weight: 300;
-  margin-top: 12px;
-  color: #333;
-}
-
-.weather-details {
-  display: flex;
-  flex-direction: column;
-  gap: 20px; /* Increased gap */
-  margin-left: 50px; /* Increased margin */
-  margin-top: 50px; /* Increased margin */
-}
-
-.detail {
-  display: flex;
-  align-items: center;
-  gap: 12px; /* Increased gap */
-  color: #777;
-  font-size: 20px; /* Increased from 16px */
-}
-
-.weather-condition {
-  font-size: 45px; /* Increased from 36px */
-  color: #666;
-  font-weight: 500;
-  margin-top: 12px;
-  letter-spacing: 0.3px;
-}
+/* =========================================================== */
+/* ========= DAILY FORECAST SECTION - MODIFIED START ========= */
+/* =========================================================== */
 
 .forecast-section {
-  margin-top: 80px; /* Increased margin */
+    margin-top: auto; /* Pushes forecast to the bottom */
+    padding-top: 40px; /* Space above the title */
 }
 
-.forecast-heading {
-  font-size: 28px; /* Increased from 22px */
-  font-weight: 600;
-  margin-bottom: 25px; /* Increased margin */
-  text-align: center;
-  color: #444;
+/* Shared heading style */
+.forecast-heading, .hourly-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #1a202c; /* Ensure consistent dark text color */
 }
 
 .daily-forecast {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 25px; /* Increased margin */
+    display: flex;
+    justify-content: space-between; /* Distribute items evenly */
+    margin-top: 15px;
+    gap: 12px; /* Slightly increase gap for better separation */
 }
 
-.day {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px; /* Increased gap */
-  padding: 20px 25px; /* Increased padding */
-  border-radius: 20px;
-  transition: background-color 0.2s;
-  min-width: 110px; /* Increased from 90px */
-}
-
-.day.active {
-  background-color: #f0f0f0;
-}
-
-.day-name {
-  font-size: 22px; /* Increased from 18px */
-  color: #777;
-  font-weight: 500;
-}
-
-.day-temp {
-  font-size: 28px; /* Increased from 22px */
-  font-weight: 600;
-}
-
-.day-condition {
-  font-size: 20px; /* Increased from 16px */
-  color: #888;
-}
-
-.sidebar-header {
-  margin-bottom: 40px; /* Increased margin */
-  text-align: center;
-}
-
-.greeting {
-  font-size: 34px; /* Increased from 26px */
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.time {
-  font-size: 26px; /* Increased from 20px */
-  color: #666;
-}
-
-.sidebar-weather {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Increased gap */
-  margin-bottom: 50px; /* Increased margin */
-  text-align: center;
-}
-
-.sidebar-temp {
-  font-size: 40px; /* Increased from 32px */
-  font-weight: 600;
-}
-
-.sidebar-feels {
-  font-size: 22px; /* Increased from 18px */
-  color: #666;
-  margin-top: 8px;
-}
-
-.sidebar-condition {
-  font-size: 22px; /* Increased from 18px */
-  color: #666;
-  margin-top: 5px;
-}
-
-.hourly-title {
-  font-size: 28px; /* Increased from 22px */
-  font-weight: 600;
-  margin-bottom: 30px; /* Increased margin */
-  text-align: center;
-  color: #444;
-}
-
-.hourly-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 20px; /* Increased gap */
-}
-
-.hour-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px; /* Increased gap */
-  padding: 18px 14px; /* Increased padding */
-  background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
-  transition: transform 0.2s;
-}
-
-.hour-item:hover {
-  transform: translateY(-3px);
-}
-
-.hour-time {
-  font-size: 20px; /* Increased from 16px */
-  color: #666;
-  font-weight: 500;
-}
-
-.hour-temp {
-  font-size: 26px; /* Increased from 20px */
-  font-weight: 600;
-}
-
-.hour-condition {
-  font-size: 18px; /* Increased from 14px */
-  color: #777;
-}
-
-/* Ultrawide displays (approximately 21:9 or wider - aspect ratio >= 2.1) */
-@media (min-aspect-ratio: 21/9) {
-  .weather-app {
-    align-items: center;
-    padding: 30px;
-  }
-  
-  .weather-card {
-    max-width: 2000px; /* Increased from 1600px */
-    max-height: 80vh;
-  }
-  
-  .main-content {
-    flex: 5;
-  }
-  
-  .sidebar {
-    flex: 3;
-  }
-  
-  .hourly-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Wide but not ultrawide displays */
-@media (min-aspect-ratio: 16/9) and (max-aspect-ratio: 21/9) {
-  .weather-card {
-    max-width: 1600px; /* Increased from 1300px */
-    max-height: 85vh;
-  }
-}
-
-/* Tablet Landscape */
-@media (max-width: 1200px) {
-  .weather-card {
-    max-width: 900px;
-  }
-  
-  .main-content, .sidebar {
-    padding: 30px 40px;
-  }
-  
-  .temp-value {
-    font-size: 140px;
-  }
-  
-  .temp-degree {
-    font-size: 80px;
-  }
-}
-
-/* Tablet Portrait */
-@media (max-width: 992px) {
-  .weather-card {
+/* Unified Container Style for Daily/Hourly - Applied to .main-content .day */
+.main-content .day,
+.sidebar .hour-item { /* Keeping styles unified where possible */
+    display: flex;
     flex-direction: column;
-    max-width: 700px;
-  }
-  
-  .main-content, .sidebar {
-    width: 100%;
-  }
-  
-  .sidebar {
-    border-left: none;
-    border-top: 1px solid #f0f0f0;
-  }
-  
-  .forecast-section {
-    margin-top: 40px;
-  }
+    align-items: center;
+    gap: 10px; /* Slightly increased gap inside the card */
+    padding: 18px 12px; /* Adjusted padding for better proportions */
+    border-radius: 18px; /* Slightly adjusted radius */
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    border: 1px solid transparent; /* Base border */
+    box-shadow: 0 5px 15px rgba(60, 90, 130, 0.07); /* Slightly adjusted shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    cursor: pointer; /* Add pointer cursor */
+    min-width: 90px; /* Ensure minimum width */
 }
 
-/* Mobile Landscape */
-@media (max-width: 768px) {
-  html, body {
-    height: auto;
-    overflow: auto;
-  }
-  
-  .weather-app {
-    padding: 20px;
-    min-height: auto;
-    align-items: flex-start;
-  }
-  
-  .weather-card {
-    max-width: 100%;
-    border-radius: 24px;
-  }
-  
-  .main-content, .sidebar {
-    padding: 25px;
-  }
-  
-  .temp-value {
-    font-size: 120px;
-  }
-  
-  .temp-degree {
-    font-size: 70px;
-  }
-  
+/* Hover for NON-ACTIVE items */
+.main-content .day:hover,
+.sidebar .hour-item:hover {
+    transform: translateY(-4px); /* Slightly more lift */
+    box-shadow: 0 8px 20px rgba(60, 90, 130, 0.1); /* Stronger shadow on hover */
+    border-color: rgba(210, 220, 230, 0.7); /* Subtle border hint on hover */
+}
+
+/* --- ACTIVE Day Styling (e.g., "Today") --- */
+.main-content .day.active {
+    background-color: #2d3748; /* Dark background like active nav buttons */
+    box-shadow: 0 6px 18px rgba(45, 55, 72, 0.25); /* Shadow matching dark bg */
+    transform: translateY(-2px); /* Slight lift for active */
+    border: 1px solid transparent; /* No border needed with dark bg */
+}
+
+/* Hover for ACTIVE day item */
+.main-content .day.active:hover {
+    /* Prevent hover transform/border change for the active item, but maybe slightly darker shadow */
+     transform: translateY(-2px); /* Keep the slight lift */
+     box-shadow: 0 8px 22px rgba(45, 55, 72, 0.3);
+     border-color: transparent; /* Ensure border stays transparent */
+}
+
+
+/* --- Content Inside Containers --- */
+.main-content .day-name {
+    font-size: 15px; /* Slightly smaller day name */
+    font-weight: 500;
+    color: #4a5568; /* Default text color */
+    transition: color 0.2s ease; /* Smooth color transition */
+}
+
+.main-content .day-condition-icon {
+    width: 38px; /* Slightly larger icon */
+    height: 38px;
+}
+/* Ensure SVGs inside icons inherit color correctly if needed */
+.main-content .day-condition-icon svg {
+    display: block; /* Prevents extra space */
+}
+
+
+.main-content .day-temp {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a202c; /* Default dark temp color */
+    transition: color 0.2s ease; /* Smooth color transition */
+}
+
+
+/* --- Text Color for ACTIVE Day --- */
+.main-content .day.active .day-name,
+.main-content .day.active .day-temp {
+    color: #ffffff; /* White text on dark background */
+}
+
+/* Note: The WeatherIcon component might handle its own colors.
+   If icons look wrong on the dark background, adjustments might be needed. */
+
+/* ========================================================= */
+/* ========= DAILY FORECAST SECTION - MODIFIED END ========= */
+/* ========================================================= */
+
+
+/* --- Hourly Forecast in Sidebar (Uses .sidebar .hour-item defined above) --- */
+.hourly-forecast {
+    margin-top: auto; /* Pushes to bottom */
+    padding-top: 30px; /* Space above title */
+}
+.hourly-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+}
+.hour-time { font-size: 15px; font-weight: 500; color: #4a5568; }
+.hour-temp { font-size: 20px; font-weight: 600; color: #1a202c; }
+.hour-condition-icon { width: 30px; height: 30px; }
+.hour-condition-icon svg { display: block; }
+
+
+/* --- Sidebar Specific Elements --- */
+.sidebar-header { margin-bottom: 40px; text-align: center; }
+.greeting { font-size: 26px; font-weight: 600; margin-bottom: 4px; }
+.time { font-size: 18px; }
+.sidebar-weather { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 50px; text-align: center; }
+.sidebar-condition-icon { width: 30px; height: 30px; margin-bottom: 4px; }
+.sidebar-temp { font-size: 30px; font-weight: 600; }
+.sidebar-feels { font-size: 15px; }
+.sidebar-condition { font-size: 15px; }
+
+/* --- Media Queries --- */
+
+/* Ultra-wide */
+@media (min-aspect-ratio: 21/9) {
+  .weather-app-wrapper { padding: 30px; }
+  .weather-card { max-width: 1800px; height: 88vh; max-height: 950px; min-height: 750px;}
+  .main-content { flex: 5; }
+  .sidebar { flex: 3; }
+  .hourly-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Wide */
+@media (min-aspect-ratio: 16/9) and (max-aspect-ratio: 21/9) {
+  .weather-card { max-width: 1500px; height: 85vh; max-height: 900px; min-height: 720px;}
+}
+
+/* Desktop with limited height */
+@media (min-width: 1200px) and (max-height: 750px) {
+  .weather-card { height: auto; max-height: calc(100vh - 60px); min-height: 0; }
+}
+
+/* Large Tablets / Small Desktops */
+@media (max-width: 1200px) {
+  .weather-card { max-width: 950px; height: auto; max-height: none; min-height: 0; }
+  .main-content, .sidebar { padding: 40px 50px; }
+  .internal-navigation { padding-bottom: 3px; margin-bottom: 30px; }
+  .nav-button { margin-right: 20px; padding: 8px 20px;}
+  .temp-value { font-size: 160px; }
+  .temp-degree { font-size: 90px; }
+  .daily-forecast { gap: 10px; } /* Adjusted gap based on new base */
+  .main-content .day { min-width: 100px; padding: 18px 10px; } /* Adjusted padding */
+}
+
+/* Tablets (Portrait) */
+@media (max-width: 992px) {
+  html, body { overflow: auto; height: auto; }
+  .weather-app-wrapper { min-height: 0; }
+  .weather-card { flex-direction: column; }
+  .main-content, .sidebar { width: 100%; overflow-y: visible; }
+  .sidebar { border-left: none; border-top: 1px solid #e2e8f0; }
+  .forecast-section, .hourly-forecast { margin-top: 40px; }
   .daily-forecast {
     overflow-x: auto;
     padding-bottom: 15px;
     justify-content: flex-start;
-    gap: 12px;
-  }
-  
-  .day {
-    min-width: 90px;
-    padding: 14px 16px;
-  }
-  
-  .hourly-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
   }
 }
 
-/* Mobile Portrait */
+/* Mobile (Landscape) / Large Phones */
+@media (max-width: 768px) {
+  .weather-app-wrapper { padding: 20px; }
+  .weather-app { padding: 0; }
+  .weather-card { max-width: 100%; border-radius: 24px; }
+  .main-content, .sidebar { padding: 30px; }
+  .internal-navigation { padding: 0 0 10px; margin: -10px 0 25px; overflow-x: auto; white-space: nowrap;}
+  .nav-button { font-size: 15px; margin-right: 15px; padding: 8px 16px;}
+  .temp-value { font-size: 130px; }
+  .temp-degree { font-size: 75px; }
+
+  /* --- MODIFIED Daily Forecast for Mobile --- */
+  .daily-forecast {
+      gap: 10px; /* Adjust gap for smaller screens */
+      /* Keep overflow-x: auto; padding-bottom: 15px; justify-content: flex-start; from 992px */
+  }
+  .main-content .day {
+      min-width: 85px; /* Adjust min-width */
+      padding: 16px 10px; /* Revert padding slightly for mobile */
+      border-radius: 16px;
+      gap: 8px;
+  }
+   .main-content .day.active {
+      transform: none; /* No lift on mobile active */
+      box-shadow: 0 5px 15px rgba(45, 55, 72, 0.2); /* Adjusted shadow for dark bg */
+      /* Text color handled by general .active rule */
+  }
+  .main-content .day:hover {
+       transform: none; /* Disable hover transform on touch devices */
+       border-color: transparent; /* No border change on mobile hover */
+       box-shadow: 0 5px 15px rgba(60, 90, 130, 0.07); /* Revert to base shadow */
+  }
+  /* Keep active hover similar to active state */
+  .main-content .day.active:hover {
+      transform: none;
+      box-shadow: 0 5px 15px rgba(45, 55, 72, 0.2); /* Keep active shadow */
+      border-color: transparent;
+  }
+
+  .main-content .day-name { font-size: 14px; }
+  .main-content .day-condition-icon { width: 34px; height: 34px; }
+  .main-content .day-temp { font-size: 18px; }
+  /* --- END MODIFIED Daily Forecast for Mobile --- */
+
+  .hourly-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .hour-condition-icon { width: 28px; height: 28px; }
+}
+
+/* Small Phones (Portrait) */
 @media (max-width: 480px) {
-  .weather-app {
-    padding: 15px;
-  }
-  
-  .temperature-wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .weather-details {
-    margin-top: 15px;
-    margin-left: 0;
-    flex-direction: row;
-    gap: 25px;
-  }
-  
-  .temp-value {
-    font-size: 100px;
-  }
-  
-  .temp-degree {
-    font-size: 60px;
-  }
-  
-  .weather-condition {
-    font-size: 28px;
-    text-align: center;
-  }
-  
-  .header {
-    margin-bottom: 25px;
-  }
-  
-  .forecast-section {
-    margin-top: 30px;
-  }
-  
-  .main-content, .sidebar {
-    padding: 20px;
-  }
-  
-  .hour-item {
-    padding: 12px 8px;
-  }
+  .weather-app-wrapper { padding: 15px; }
+  .internal-navigation { padding: 0 0 8px; margin: -10px 0 20px;}
+  .nav-button { font-size: 14px; margin-right: 10px; padding: 7px 14px;}
+  .temperature-wrapper { flex-direction: column; align-items: center; }
+  .weather-details { margin-top: 15px; margin-left: 0; flex-direction: row; gap: 25px; justify-content: center; }
+  .temp-value { font-size: 110px; letter-spacing: -3px;}
+  .temp-degree { font-size: 65px; margin-left: -5px;}
+  .weather-condition { font-size: 28px; text-align: center; }
+  .current-weather-icon { width: 35px; height: 35px; }
+  .header { margin-bottom: 20px; }
+  .forecast-section, .hourly-forecast { margin-top: 30px; }
+  .main-content, .sidebar { padding: 25px 20px; }
+  .hour-item { padding: 12px 8px; } /* Adjust hourly item padding */
+  .hourly-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Very Small Mobile Devices */
+/* Very Small Phones */
 @media (max-width: 350px) {
-  .weather-app {
-    padding: 10px;
+  .weather-app-wrapper { padding: 10px; }
+  .internal-navigation { padding: 0 0 5px; margin: -15px 0 15px;}
+  .nav-button { font-size: 13px; margin-right: 8px; padding: 6px 10px;}
+  .main-content, .sidebar { padding: 20px 15px; }
+  .temp-value { font-size: 90px; }
+  .temp-degree { font-size: 55px; }
+  .hourly-grid { grid-template-columns: 1fr; } /* Stack hourly items */
+  .location, .date { font-size: 18px; }
+
+  /* --- MODIFIED Daily Forecast for Very Small Mobile --- */
+  .daily-forecast { gap: 8px; } /* Slightly less gap */
+  .main-content .day {
+    min-width: 75px;
+    padding: 14px 8px; /* Adjust padding */
+    border-radius: 14px;
+    gap: 6px;
   }
-  
-  .main-content, .sidebar {
-    padding: 15px;
-  }
-  
-  .temp-value {
-    font-size: 80px;
-  }
-  
-  .temp-degree {
-    font-size: 50px;
-  }
-  
-  .hourly-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .location, .date {
-    font-size: 16px;
-  }
-  
-  .day {
-    padding: 10px 12px;
-    gap: 8px;
-  }
-  
-  .day-name {
-    font-size: 14px;
-  }
-  
-  .day-temp {
-    font-size: 18px;
-  }
-  
-  .day-condition {
-    font-size: 12px;
-  }
+  .main-content .day-name { font-size: 13px; }
+  .main-content .day-condition-icon { width: 30px; height: 30px; }
+  .main-content .day-temp { font-size: 17px; }
+  /* Active/Hover styles inherited from 768px media query */
+  /* --- END MODIFIED Daily Forecast for Very Small Mobile --- */
 }

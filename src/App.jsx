@@ -1,141 +1,163 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import WeatherIcon from './components/WeatherIcon'; // Assuming WeatherIcon.jsx is in src/components
 
-// Simple SVG icons
-const WindIcon = () => (
-  <svg viewBox="0 0 24 24" width="18" height="18" stroke="#777" strokeWidth="2" fill="none">
-    <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" />
-    <path d="M9.6 4.6A2 2 0 1 1 11 8H2" />
-    <path d="M12.6 19.4A2 2 0 1 0 14 16H2" />
-  </svg>
-);
+// Import specific detail icons (ensure paths are correct)
+import WindySvg from './assets/windy.svg?react';
+import HumiditySvg from './assets/humility.svg?react'; // Make sure 'humility.svg' exists
 
-const HumidityIcon = () => (
-  <svg viewBox="0 0 24 24" width="18" height="18" stroke="#777" strokeWidth="2" fill="none">
-    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0L12 2.69z" />
-  </svg>
-);
+// Reusable components for detail icons
+const WindIcon = ({ size = 20 }) => <WindySvg width={size} height={size} className="detail-icon" />;
+const HumidityIcon = ({ size = 20 }) => <HumiditySvg width={size} height={size} className="detail-icon" />;
+
+// Placeholder forecast data
+const dailyForecastData = [
+    { day: 'Today', temp: '20°', weatherType: 'cloudy' },
+    { day: 'Tue', temp: '32°', weatherType: 'sunny' },
+    { day: 'Wed', temp: '12°', weatherType: 'rainy' },
+    { day: 'Thu', temp: '13°', weatherType: 'partly-cloudy-day' },
+    { day: 'Fri', temp: '22°', weatherType: 'thunderstorm' },
+    { day: 'Sat', temp: '5°', weatherType: 'snowy' },
+];
+const hourlyForecastData = [
+    { time: '1 PM', temp: '20°', weatherType: 'cloudy' },
+    { time: '2 PM', temp: '21°', weatherType: 'partly-cloudy-day' },
+    { time: '3 PM', temp: '21°', weatherType: 'partly-cloudy-day' },
+    { time: '4 PM', temp: '20°', weatherType: 'windy' },
+    { time: '5 PM', temp: '19°', weatherType: 'cloudy' },
+    { time: '6 PM', temp: '18°', weatherType: 'rainy' },
+];
 
 function App() {
+  // Keep timeOfDay state for background gradients, default to 'morning'
+  const [timeOfDay, setTimeOfDay] = useState('morning');
+  // State to track the visually active view, defaults to 'dashboard'
+  const [activeView, setActiveView] = useState('dashboard');
+
+  const currentCondition = 'Cloudy';
+  const currentConditionType = 'cloudy';
+
+  // Greeting function (optional now, could be static or based on actual time)
+  const getGreeting = () => {
+    // Basic time check can replace the state if you remove background changes later
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning';
+    if (hour < 18) return 'Good Afternoon';
+    return 'Good Evening';
+  };
+
+  // Assign dynamic background class (could be simplified if only one time is shown)
+  const backgroundClass = `main-content-${timeOfDay}`;
+  const sidebarBackgroundClass = `sidebar-${timeOfDay}`;
+
   return (
-    <div className="weather-app">
-      <div className="weather-card">
-        <div className="main-content">
-          <div className="header">
-            <div className="location">Multan</div>
-            <div className="date">21.04.2021</div>
-          </div>
-          
-          <div className="current-weather">
-            <div className="temperature-wrapper">
-              <div className="temperature">
-                <span className="temp-value">20</span>
-                <span className="temp-degree">°</span>
-              </div>
-              
-              <div className="weather-details">
-                <div className="detail">
-                  <WindIcon />
-                  <span>6.1 mph</span>
+    // Main wrapper for centering content on the page
+    <div className="weather-app-wrapper">
+      {/* Weather App container */}
+      <div className="weather-app">
+        <div className="weather-card"> {/* Card is ROW layout */}
+
+            {/* --- Left Panel --- */}
+            <div className={`main-content ${backgroundClass}`}>
+
+                {/* --- Internal Navigation --- */}
+                <div className="internal-navigation">
+                    <button
+                        className={`nav-button ${activeView === 'dashboard' ? 'active' : ''}`}
+                        // onClick={() => setActiveView('dashboard')} // Keep non-functional
+                    >
+                        Dashboard
+                    </button>
+                    <button
+                        className={`nav-button ${activeView === 'search' ? 'active' : ''}`}
+                        // onClick={() => setActiveView('search')} // Keep non-functional
+                    >
+                        Search City
+                    </button>
+                    <button
+                        className={`nav-button ${activeView === 'hk-weather' ? 'active' : ''}`}
+                        // onClick={() => setActiveView('hk-weather')} // Keep non-functional
+                    >
+                        Hong Kong Regions
+                    </button>
                 </div>
-                <div className="detail">
-                  <HumidityIcon />
-                  <span>85%</span>
+                {/* --- End Internal Navigation --- */}
+
+
+                {/* --- Dashboard Content (Always Visible) --- */}
+                <>
+                    <div className="header">
+                        <div className="location">Multan</div>
+                        <div className="date">21.04.2021</div>
+                    </div>
+
+                    <div className="current-weather">
+                        <div className="temperature-wrapper">
+                            <div className="temperature">
+                                <span className="temp-value">20</span>
+                                <span className="temp-degree">°</span>
+                            </div>
+                            <div className="weather-details">
+                                <div className="detail"><WindIcon size={24} /><span>6.1 mph</span></div>
+                                <div className="detail"><HumidityIcon size={24} /><span>85%</span></div>
+                            </div>
+                        </div>
+                        <div className="current-condition-container">
+                            <WeatherIcon type={currentConditionType} size={50} className="current-weather-icon" />
+                            <div className="weather-condition">{currentCondition}</div>
+                        </div>
+                    </div>
+
+                    <div className="forecast-section">
+                        <h3 className="forecast-heading">Daily Forecast</h3>
+                        <div className="daily-forecast">
+                            {dailyForecastData.map((item, index) => (
+                                <div key={index} className={`day ${index === 0 ? 'active' : ''}`}>
+                                    <div className="day-name">{item.day}</div>
+                                    <WeatherIcon type={item.weatherType} size={38} className="day-condition-icon" />
+                                    <div className="day-temp">{item.temp}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </>
+                {/* --- End Dashboard Content --- */}
+
+            </div> {/* End main-content */}
+
+
+            {/* --- Right Panel (Sidebar) --- */}
+            <div className={`sidebar ${sidebarBackgroundClass}`}>
+                <div className="sidebar-header">
+                    <div className="greeting">{getGreeting()}</div>
+                    <div className="time">12:27 PM</div> {/* Static time */}
                 </div>
-              </div>
-            </div>
-            
-            <div className="weather-condition">Cloudy</div>
-          </div>
-          
-          <div className="forecast-section">
-            <h3 className="forecast-heading">Daily Forecast</h3>
-            <div className="daily-forecast">
-              <div className="day active">
-                <div className="day-name">Today</div>
-                <div className="day-temp">20°</div>
-                <div className="day-condition">Cloudy</div>
-              </div>
-              <div className="day">
-                <div className="day-name">Tue</div>
-                <div className="day-temp">32°</div>
-                <div className="day-condition">Sunny</div>
-              </div>
-              <div className="day">
-                <div className="day-name">Wed</div>
-                <div className="day-temp">12°</div>
-                <div className="day-condition">Rainy</div>
-              </div>
-              <div className="day">
-                <div className="day-name">Thu</div>
-                <div className="day-temp">13°</div>
-                <div className="day-condition">Cloudy</div>
-              </div>
-              <div className="day">
-                <div className="day-name">Fri</div>
-                <div className="day-temp">22°</div>
-                <div className="day-condition">Sunny</div>
-              </div>
-              <div className="day">
-                <div className="day-name">Sat</div>
-                <div className="day-temp">22°</div>
-                <div className="day-condition">Sunny</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="sidebar">
-          <div className="sidebar-header">
-            <div className="greeting">Good Morning</div>
-            <div className="time">12:27 PM</div>
-          </div>
-          
-          <div className="sidebar-weather">
-            <div className="sidebar-temp">20°</div>
-            <div className="sidebar-feels">Feels Like 19°</div>
-            <div className="sidebar-condition">Cloudy</div>
-          </div>
-          
-          <div className="hourly-forecast">
-            <h3 className="hourly-title">Hourly Forecast</h3>
-            <div className="hourly-grid">
-              <div className="hour-item">
-                <div className="hour-time">1 PM</div>
-                <div className="hour-temp">20°</div>
-                <div className="hour-condition">Cloudy</div>
-              </div>
-              <div className="hour-item">
-                <div className="hour-time">2 PM</div>
-                <div className="hour-temp">21°</div>
-                <div className="hour-condition">Cloudy</div>
-              </div>
-              <div className="hour-item">
-                <div className="hour-time">3 PM</div>
-                <div className="hour-temp">21°</div>
-                <div className="hour-condition">Cloudy</div>
-              </div>
-              <div className="hour-item">
-                <div className="hour-time">4 PM</div>
-                <div className="hour-temp">20°</div>
-                <div className="hour-condition">Cloudy</div>
-              </div>
-              <div className="hour-item">
-                <div className="hour-time">5 PM</div>
-                <div className="hour-temp">21°</div>
-                <div className="hour-condition">Cloudy</div>
-              </div>
-              <div className="hour-item">
-                <div className="hour-time">6 PM</div>
-                <div className="hour-temp">21°</div>
-                <div className="hour-condition">Cloudy</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                <div className="sidebar-weather">
+                    <WeatherIcon type={currentConditionType} size={36} className="sidebar-condition-icon" />
+                    <div className="sidebar-temp">20°</div>
+                    <div className="sidebar-feels">Feels Like 19°</div>
+                    <div className="sidebar-condition">{currentCondition}</div>
+                </div>
+                <div className="hourly-forecast">
+                    <h3 className="hourly-title">Hourly Forecast</h3>
+                    <div className="hourly-grid">
+                        {hourlyForecastData.map((item, index) => (
+                            <div key={index} className="hour-item">
+                                <div className="hour-time">{item.time}</div>
+                                <WeatherIcon type={item.weatherType} size={32} className="hour-condition-icon" />
+                                <div className="hour-temp">{item.temp}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div> {/* End sidebar */}
+
+
+        </div> {/* End weather-card */}
+      </div> {/* End weather-app */}
+    </div> // End wrapper
   );
 }
 
 export default App;
+
