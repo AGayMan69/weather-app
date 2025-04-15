@@ -19,8 +19,7 @@ function CitySearchInput({ query, onQueryChange, onSubmit }) {
           aria-label="Search for city"
         />
       </div>
-      {/* You could add an explicit search button here if desired */}
-      {/* <button type="submit">Search</button> */}
+      {/* No explicit submit button needed if using debounced search */}
     </form>
   );
 }
