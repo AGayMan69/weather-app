@@ -2,13 +2,9 @@
 
 A responsive weather application built with React, leveraging OpenWeatherMap API for weather data, Firebase for backend and analytics, and optional background images from Pexels. Users can search for any city, view current weather, forecast, AQI, UV index, and see a beautiful city background.
 
----
-
 ## Demo
 
 [https://weather-app-96fd4.web.app]
-
----
 
 ## Prerequisites
 
@@ -20,8 +16,6 @@ A responsive weather application built with React, leveraging OpenWeatherMap API
   - **Pexels** (for background images, optional)
   - **OpenUV** (for UV index)
   - **Google Analytics** (via Firebase)
-
----
 
 ## Setup Instructions
 
@@ -62,8 +56,6 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=G-XXXXXXXXXX
 
 *(Replace placeholders with your actual keys and IDs)*
 
----
-
 ### 4. Initialize Firebase & Analytics
 
 - In the Firebase Console, go to **Project Settings > General**.
@@ -91,8 +83,6 @@ npm run build
 firebase deploy --only hosting
 ```
 
----
-
 ## Usage
 
 ### Run locally
@@ -111,8 +101,6 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 npm run build
 firebase deploy --only hosting
 ```
-
----
 
 ## Analytics & Tracking
 
