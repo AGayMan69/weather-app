@@ -7,6 +7,7 @@ import './App.css';
 
 // Import the main App component
 import App from './App.jsx';
+import './firebase';
 
 // Note: No need to import CitySearch here anymore, App handles it
 
