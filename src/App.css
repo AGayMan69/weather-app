@@ -19,6 +19,27 @@ html, body {
   overflow: hidden; /* Prevent body scroll on larger screens */
 }
 
+body.city-bg-active {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #e0e7ef;
+  position: relative;
+}
+
+body.city-bg-active::before {
+  content: '';
+  position: fixed;
+  z-index: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  background: rgba(255,255,255,0.4); /* Adjust for more/less fade */
+  backdrop-filter: blur(5px);       /* Heavy blur */
+  -webkit-backdrop-filter: blur(32px);
+}
+
 /* --- Main app container - Wrapper --- */
 /* This centers the content vertically and horizontally */
 .weather-app-wrapper {
