@@ -343,6 +343,12 @@ function WeatherDashboard({
       {/* Search Overlay */}
       {isSearchActive && (
         <div className="search-overlay">
+          <button
+            className="return-button"
+            onClick={() => setIsSearchActive(false)}
+          >
+            ← Return
+          </button>
           <CitySearchInput
             query={searchQuery}
             onQueryChange={handleQueryChange}

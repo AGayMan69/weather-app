@@ -103,20 +103,26 @@ function transformOpenWeatherData(apiData, locationName = "Selected Location") {
 
   const getLocalDate = (unixTimestamp) =>
     new Date((unixTimestamp + timezoneOffsetSeconds) * 1000);
+
   const formatDate = (d) =>
     d.toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
+      timeZone: "UTC",
     });
+  const formatDay = (d, i) =>
+    i === 0
+      ? "Today"
+      : d.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" });
   const formatTime = (d) =>
     d.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
       hour12: true,
+      timeZone: "UTC",
     });
-  const formatDay = (d, i) =>
-    i === 0 ? "Today" : d.toLocaleDateString("en-US", { weekday: "short" });
+
   const formatHour = (d) =>
     d
       .toLocaleTimeString("en-US", { hour: "numeric", hour12: true })
