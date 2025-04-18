@@ -1,6 +1,5 @@
-// src/components/SidebarWeatherSummary.jsx
-import React from 'react';
-import WeatherIcon from './WeatherIcon';
+import React from "react";
+import WeatherIcon from "./WeatherIcon";
 
 function SidebarWeatherSummary({ icon, temp, feelsLike, condition }) {
   return (

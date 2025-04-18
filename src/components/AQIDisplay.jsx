@@ -1,14 +1,12 @@
-// src/components/AQIDisplay.jsx
-import React from 'react';
+import React from "react";
 
-// Helper function (can be moved to utils if used elsewhere)
 const getAqiClass = (aqi) => {
-    if (aqi <= 50) return 'aqi-good';
-    if (aqi <= 100) return 'aqi-moderate';
-    if (aqi <= 150) return 'aqi-unhealthy-sensitive';
-    if (aqi <= 200) return 'aqi-unhealthy';
-    if (aqi <= 300) return 'aqi-very-unhealthy';
-    return 'aqi-hazardous';
+  if (aqi <= 50) return "aqi-good";
+  if (aqi <= 100) return "aqi-moderate";
+  if (aqi <= 150) return "aqi-unhealthy-sensitive";
+  if (aqi <= 200) return "aqi-unhealthy";
+  if (aqi <= 300) return "aqi-very-unhealthy";
+  return "aqi-hazardous";
 };
 
 function AQIDisplay({ aqi, aqiStatus }) {

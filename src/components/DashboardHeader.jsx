@@ -1,4 +1,3 @@
-// src/components/DashboardHeader.jsx
 import React from 'react';
 
 function DashboardHeader({ location, date }) {

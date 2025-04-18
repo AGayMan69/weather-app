@@ -1,11 +1,9 @@
-// src/components/WeatherDashboard.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { logEvent } from "firebase/analytics";
 import { analytics } from "../firebase";
 import "./WeatherDashboard.css";
 
-// Import child components
 import DashboardHeader from "./DashboardHeader";
 import CurrentWeatherDetails from "./CurrentWeatherDetails";
 import DailyForecastDisplay from "./DailyForecastDisplay";
@@ -16,7 +14,6 @@ import HourlyForecastDisplay from "./HourlyForecastDisplay";
 import CitySearchInput from "./CitySearchInput";
 import CitySearchResults from "./CitySearchResults";
 
-// --- Popular Cities Data ---
 const popularCitiesData = [
   {
     id: "lon",
@@ -68,7 +65,6 @@ const popularCitiesData = [
   },
 ];
 
-// --- Helper Functions (for time/gradient) ---
 const getGreeting = (offsetSeconds = 0) => {
   const d = new Date(Date.now() + offsetSeconds * 1000);
   const h = d.getUTCHours();
@@ -107,7 +103,6 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-// --- Icons (with basic SVG placeholders) ---
 const SearchIcon = ({ size = 20 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +136,6 @@ const CloseIcon = ({ size = 20 }) => (
   </svg>
 );
 
-// Helper function to get icon key (needed for popular cities)
 const getPopIconKey = (weather) => {
   if (!weather || !weather[0]) return "default";
   const main = weather[0].main.toLowerCase();
@@ -157,7 +151,6 @@ const getPopIconKey = (weather) => {
   }
 };
 
-// --- Main WeatherDashboard Component ---
 function WeatherDashboard({
   weatherData,
   isLoading,
@@ -165,20 +158,17 @@ function WeatherDashboard({
   onCitySelect,
   apiBaseUrl,
 }) {
-  // Search State
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
-  // Popular Cities State
   const [popularCitiesWeather, setPopularCitiesWeather] = useState({});
   const [popularLoading, setPopularLoading] = useState(false);
 
   const debouncedQuery = useDebounce(searchQuery, 400);
 
-  // Fetch Search Results
   useEffect(() => {
     if (debouncedQuery.trim() && apiBaseUrl) {
       setIsSearchLoading(true);
@@ -210,9 +200,8 @@ function WeatherDashboard({
       setIsSearchLoading(false);
       setHasSearched(searchQuery.trim().length > 0);
     }
-  }, [debouncedQuery, apiBaseUrl, searchQuery]); // Incl. searchQuery for hasSearched
+  }, [debouncedQuery, apiBaseUrl, searchQuery]);
 
-  // Fetch Popular Cities Weather
   useEffect(() => {
     if (
       isSearchActive &&
@@ -251,7 +240,6 @@ function WeatherDashboard({
     }
   }, [isSearchActive, popularCitiesWeather, popularLoading, apiBaseUrl]); // Dependencies
 
-  // Handlers
   const handleQueryChange = (q) => {
     setSearchQuery(q);
     if (q.trim()) {
@@ -280,7 +268,6 @@ function WeatherDashboard({
     }
   };
 
-  // --- Main Loading/Error States ---
   if (isLoading)
     return (
       <div className="weather-card loading-error-state">
@@ -300,7 +287,6 @@ function WeatherDashboard({
       </div>
     );
 
-  // --- If we have weatherData, proceed ---
   const cityTimezoneOffset = weatherData.timezoneOffset ?? 0;
   const timeOfDay = getTimeOfDayClass(cityTimezoneOffset);
   const mainContentClass = `main-content main-content-${timeOfDay}`;
@@ -310,12 +296,10 @@ function WeatherDashboard({
 
   const { location, date, hourly, daily, imageUrl } = weatherData;
 
-  // Prepare Style Object for background
   const mainContentStyle = {
     "--bg-image-url": imageUrl ? `url(${imageUrl})` : "none",
   };
 
-  // Merge popular cities data
   const popularCitiesWithTemp = popularCitiesData.map((city) => ({
     ...city,
     temp:
@@ -326,12 +310,10 @@ function WeatherDashboard({
   }));
 
   return (
-    // Add dynamic class for search state
     <div
       className={`weather-card ${isSearchActive ? "search-active" : ""}`}
       style={{ position: "relative" }}
     >
-      {/* Search Toggle Button */}
       <button
         onClick={toggleSearch}
         className="search-toggle-button"
@@ -340,7 +322,6 @@ function WeatherDashboard({
         {isSearchActive ? <CloseIcon size={24} /> : <SearchIcon size={24} />}
       </button>
 
-      {/* Search Overlay */}
       {isSearchActive && (
         <div className="search-overlay">
           <button

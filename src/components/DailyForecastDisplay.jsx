@@ -1,10 +1,9 @@
-// src/components/DailyForecastDisplay.jsx
 import React from 'react';
 import WeatherIcon from './WeatherIcon';
 
 function DailyForecastDisplay({ dailyData }) {
   return (
-    <div className="forecast-section"> {/* Keep forecast-section for styling */}
+    <div className="forecast-section"> 
       <h2 className="forecast-heading">Daily Forecast</h2>
       <div className="daily-forecast">
         {dailyData.map((day, index) => (

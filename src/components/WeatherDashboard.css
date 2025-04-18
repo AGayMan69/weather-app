@@ -1,23 +1,19 @@
-/* src/components/WeatherDashboard.css */
-
-/* --- Base Weather Card Container --- */
 .weather-card {
-  background-color: #ffffff; /* Fallback */
+  background-color: #ffffff; 
   border-radius: 28px;
   box-shadow: 0 10px 30px rgba(60, 90, 130, 0.08), 0 4px 10px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: row;
   width: 100%;
   max-width: 1600px;
-  overflow: hidden; /* Important for keeping overlay contained */
-  position: relative; /* Crucial for positioning overlay and toggle */
+  overflow: hidden; 
+  position: relative; 
   height: 85vh;
   max-height: 850px;
   min-height: 700px;
-  font-family: 'DM Sans', sans-serif; /* Match App.css */
+  font-family: 'DM Sans', sans-serif; 
 }
 
-/* --- Main Content & Sidebar Panels --- */
 .main-content,
 .sidebar {
   padding: 35px 55px 40px;
@@ -25,23 +21,22 @@
   flex-direction: column;
   color: #2d3748;
   border-radius: 0;
-  overflow-y: auto; /* Allow scrolling WITHIN each panel */
-  z-index: 1; /* Keep below overlay */
-  position: relative; /* Needed for ::before and content */
-  transition: background-image 0.6s ease-in-out; /* For gradient change */
-  background-size: 100% 100%; /* Ensure gradient covers */
+  overflow-y: auto; 
+  z-index: 1; 
+  position: relative; 
+  transition: background-image 0.6s ease-in-out; 
+  background-size: 100% 100%; 
 }
 
 .main-content {
-  flex: 7; /* 7:3 Ratio */
+  flex: 7; 
 }
 
 .sidebar {
-  flex: 3; /* 7:3 Ratio */
+  flex: 3;
   border-left: none;
 }
 
-/* --- Time-based Gradients (Applied Directly) --- */
 .main-content-morning, .sidebar-morning {
   background-image: linear-gradient(135deg, #a8d8ff 0%, #ffe7cc 100%);
 }
@@ -52,9 +47,8 @@
   background-image: linear-gradient(135deg, #b8c6e0 0%, #e1d7f0 100%);
 }
 
-/* --- Background Image for Main Content --- */
 .main-content::before {
-  content: ''; /* Required for pseudo-elements */
+  content: ''; 
   position: absolute;
   top: 0;
   left: 0;
@@ -63,17 +57,15 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.25; /* Adjust low opacity (e.g., 0.1 = 10%) */
-  z-index: -1; /* Position behind the content */
-  transition: background-image 0.5s ease-in-out; /* Smooth image change */
-  border-radius: inherit; /* Optional: if needed */
+  opacity: 0.25;
+  z-index: -1; 
+  transition: background-image 0.5s ease-in-out;
+  border-radius: inherit; 
 
-  /* Use the CSS variable set by the inline style in WeatherDashboard.jsx */
-  background-image: var(--bg-image-url, none); /* Fallback to 'none' */
+  background-image: var(--bg-image-url, none); 
 }
 
 
-/* --- Text & Icon Readability --- */
 .weather-card .location, .weather-card .temp-value, .weather-card .temp-degree,
 .weather-card .weather-condition, .weather-card .forecast-heading, .weather-card .day-temp,
 .weather-card .greeting, .weather-card .sidebar-temp, .weather-card .hourly-title,
@@ -92,7 +84,6 @@
 .main-content .day.active .day-condition-icon { fill: #ffffff; stroke: #ffffff; }
 
 
-/* --- Main Content Elements --- */
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; flex-shrink: 0; }
 .header .location { font-size: 28px; font-weight: 600; }
 .header .date { font-size: 20px; }
@@ -127,7 +118,6 @@
 .main-content .day-condition-icon { width: 35px; height: 35px; margin: 4px 0; }
 .main-content .day-temp { font-size: 20px; font-weight: 600; color: #1a202c; transition: color 0.2s ease; }
 
-/* --- Sidebar Elements --- */
 .sidebar-header { margin-bottom: 35px; text-align: center; flex-shrink: 0; }
 .greeting { font-size: 24px; font-weight: 600; margin-bottom: 2px; }
 .time { font-size: 16px; }
@@ -155,7 +145,6 @@
 .hour-temp { font-size: 20px; font-weight: 600; color: #1a202c; }
 .hour-condition-icon { width: 30px; height: 30px; margin: 3px 0; }
 
-/* --- Search Toggle Button --- */
 .search-toggle-button {
   position: absolute; top: 25px; right: 30px; z-index: 10;
   background: rgba(255, 255, 255, 0.3); border: none; border-radius: 50%;
@@ -166,23 +155,18 @@
 .search-toggle-button:hover { background: rgba(255, 255, 255, 0.5); transform: scale(1.05); }
 .search-toggle-button svg { stroke-width: 2.5px; }
 
-/* --- Search Overlay --- */
 .search-overlay {
   position: absolute; top: 0; left: 0; right: 0; bottom: 0;
   background-color: rgba(248, 250, 252, 0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   z-index: 20; padding: 25px 40px 40px; display: flex; flex-direction: column;
   overflow: hidden; border-radius: inherit;
-  opacity: 0; visibility: hidden; /* Controlled by JS/state, remove inline style if used */
+  opacity: 0; visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-/* Example: If WeatherDashboard gets an 'search-active' class when overlay is open */
 .weather-card.search-active .search-overlay {
    opacity: 1; visibility: visible;
 }
-/* OR if you prefer direct style manipulation from React (visibility: visible; opacity: 1;) */
 
-
-/* --- Styles WITHIN Search Overlay (Adapted from CitySearch.css) --- */
 .search-overlay .search-area { margin-bottom: 20px; display: flex; align-items: center; gap: 15px; flex-shrink: 0; }
 .search-overlay .search-input-wrapper { flex-grow: 1; display: flex; align-items: center; background-color: rgba(255, 255, 255, 0.7); border: 1px solid rgba(223, 228, 240, 0.8); border-radius: 12px; padding: 5px 15px; box-shadow: 0 4px 10px rgba(100, 116, 139, 0.05); transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; }
 .search-overlay .search-input-wrapper:focus-within { border-color: #a0b3ce; background-color: rgba(255, 255, 255, 0.9); box-shadow: 0 4px 12px rgba(100, 116, 139, 0.1); }
@@ -231,11 +215,9 @@
   background-color: #e0e0e0;
 }
 
-/* --- Loading/Error States for Main Card --- */
 .loading-error-state { display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 1.5rem; padding: 20px; text-align: center; }
 .loading-error-state.error-text { color: #dc2626; }
 
-/* --- Media Queries --- */
 @media (min-aspect-ratio: 21/9) { .weather-card { max-width: 1800px; height: 88vh; max-height: 950px; min-height: 750px; } .hourly-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (min-aspect-ratio: 16/9) and (max-aspect-ratio: 21/9) { .weather-card { max-width: 1700px; height: 85vh; max-height: 900px; min-height: 720px; } }
 @media (min-width: 1200px) and (max-height: 800px) { .weather-card { height: auto; max-height: calc(100vh - 60px); min-height: 0; } }
@@ -244,4 +226,3 @@
 @media (max-width: 768px) { .weather-card { border-radius: 24px; } .main-content, .sidebar { padding: 30px; } .temp-value { font-size: 120px; } .temp-degree { font-size: 70px; } .forecast-section { padding: 15px 20px; border-radius: 16px; } .daily-forecast { gap: 10px; } .main-content .day { min-width: 85px; padding: 16px 10px; border-radius: 16px; gap: 8px; } .hourly-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; } .sidebar .hour-item { border-radius: 16px; padding: 14px 8px; } .aqi-section { margin-bottom: 30px; padding: 12px; } .aqi-value { font-size: 32px; } .search-toggle-button { top: 15px; right: 15px; width: 40px; height: 40px; } .search-overlay { padding: 20px 25px 25px; } .search-overlay .results-title { font-size: 1.2rem; } .search-overlay .city-list { grid-template-columns: 1fr; } }
 @media (max-width: 480px) { .main-content, .sidebar { padding: 25px 20px; } .temperature-wrapper { flex-direction: column; align-items: center; gap: 15px; } .weather-details-grid { grid-template-columns: 1fr; gap: 10px; margin-left: 0; margin-top: 15px; text-align: center; } .weather-details-grid .detail { justify-content: center; font-size: 14px; } .temp-value { font-size: 100px; letter-spacing: -3px; } .temp-degree { font-size: 60px; margin-left: -5px; } .weather-condition { text-align: center; font-size: 26px; margin-right: 0; } .current-condition-container { justify-content: center; flex-direction: column; gap: 8px; } .day-minmax-temp { justify-content: center; width: 100%; margin-left: 0; font-size: 14px; } .sunrise-sunset { justify-content: space-around; gap: 15px; font-size: 13px; } .forecast-section { padding: 15px; margin-top: 25px; } .forecast-heading { font-size: 18px; margin-bottom: 10px; } .sidebar .hour-item { padding: 12px 8px; } .hourly-grid { grid-template-columns: repeat(2, 1fr); } .search-toggle-button { top: 12px; right: 12px; } .search-overlay { padding: 15px; } .search-overlay .search-area { margin-bottom: 15px; } .search-overlay .search-input { font-size: 0.95rem; } .search-overlay .results-title { font-size: 1.1rem; margin-bottom: 10px; } .search-overlay .city-list-item.card { padding: 12px 15px; } }
 @media (max-width: 350px) { .main-content, .sidebar { padding: 20px 15px; } .temp-value { font-size: 80px; } .temp-degree { font-size: 50px; } .hourly-grid { grid-template-columns: 1fr; } .header .location, .header .date { font-size: 16px; } .forecast-section { padding: 12px; } .daily-forecast { gap: 8px; } .main-content .day { min-width: 70px; padding: 12px 6px; border-radius: 14px; gap: 4px; } .search-overlay .city-list-item.card { flex-wrap: wrap; } }
-

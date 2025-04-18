@@ -1,5 +1,4 @@
-// src/components/CitySearchInput.jsx
-import React from 'react';
+import React from "react";
 
 function CitySearchInput({ query, onQueryChange, onSubmit }) {
   const handleInputChange = (event) => {
@@ -19,7 +18,6 @@ function CitySearchInput({ query, onQueryChange, onSubmit }) {
           aria-label="Search for city"
         />
       </div>
-      {/* No explicit submit button needed if using debounced search */}
     </form>
   );
 }

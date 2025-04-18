@@ -1,4 +1,3 @@
-// src/components/HourlyForecastDisplay.jsx
 import React from 'react';
 import WeatherIcon from './WeatherIcon';
 

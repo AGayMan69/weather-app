@@ -1,5 +1,4 @@
-// src/components/SidebarHeaderDisplay.jsx
-import React from 'react';
+import React from "react";
 
 function SidebarHeaderDisplay({ greeting, currentTime }) {
   return (
